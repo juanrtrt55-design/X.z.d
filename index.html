@@ -17,37 +17,36 @@
         }
 
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background-color: #050811;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         .app-horizontal-layout {
             display: flex;
             flex-direction: row;
-            gap: 10px;
+            gap: 8px;
             width: 100vw;
             height: 100vh;
-            padding: 10px;
+            padding: 6px;
             background: #050811;
         }
 
         .player-skin {
-            width: 520px;
-            min-width: 520px;
+            flex: 1.2;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             background: linear-gradient(180deg, #3d6899 0%, #1a365d 40%, #2a4d7c 100%);
             border: 2px solid #5a82b5;
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 6px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
 
@@ -56,18 +55,18 @@
             justify-content: space-between;
             align-items: center;
             background: linear-gradient(180deg, #183354, #0d1f35);
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 6px 6px 0 0;
             border-bottom: 1px solid #345988;
         }
 
         .station-title {
             color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 3px #000;
-            max-width: 200px;
+            max-width: 220px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -82,14 +81,14 @@
         .paypal-btn-top {
             background: linear-gradient(180deg, #2563eb, #1d4ed8);
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 3px 7px;
+            border-radius: 5px;
             border: 1px solid #93c5fd;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             cursor: pointer;
             text-decoration: none;
             box-shadow: 0 2px 5px rgba(0,0,0,0.4);
@@ -101,14 +100,14 @@
         .exit-btn-top {
             background: linear-gradient(180deg, #dc2626, #991b1b);
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 3px 8px;
+            border-radius: 5px;
             border: 1px solid #fca5a5;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.4);
             transition: transform 0.1s;
@@ -124,13 +123,13 @@
             border: 2px solid #203f66;
             border-radius: 4px;
             flex-grow: 1;
-            margin: 4px 0;
-            max-height: 115px;
+            margin: 3px 0;
+            max-height: 105px;
         }
 
         .album-art-container {
-            width: 110px;
-            min-width: 110px;
+            width: 100px;
+            min-width: 100px;
             border: 1px solid #444;
             background: #111;
             position: relative;
@@ -165,13 +164,13 @@
             border: 1px solid #203f66;
             color: #ffffff;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-            padding: 4px;
+            padding: 3px;
             overflow: hidden;
             white-space: nowrap;
             border-radius: 3px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .marquee-text {
@@ -196,15 +195,15 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             background: rgba(0,0,0,0.4);
-            padding: 4px 6px;
+            padding: 3px 6px;
             border-radius: 4px;
         }
 
         .progress-bar-input {
             width: 100%;
-            height: 6px;
+            height: 5px;
             background: #203f66;
             border-radius: 3px;
             appearance: none;
@@ -215,27 +214,27 @@
         .bottom-panel {
             background: linear-gradient(180deg, #e6ecf2 0%, #adb5c0 50%, #788291 100%);
             border-radius: 0 0 6px 6px;
-            padding: 6px 8px;
+            padding: 5px 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid #ffffff;
-            gap: 6px;
+            gap: 4px;
         }
 
-        .btn-group { display: flex; gap: 4px; }
+        .btn-group { display: flex; gap: 3px; }
 
         .control-btn {
-            width: 34px;
-            height: 32px;
+            width: 31px;
+            height: 29px;
             background: linear-gradient(180deg, #2b7bc3, #154675);
             border: 1.5px solid #ffffff;
-            border-radius: 6px;
+            border-radius: 5px;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -244,26 +243,26 @@
         .control-btn:active { transform: scale(0.92); }
 
         .info-stats {
-            font-size: 8.5px;
+            font-size: 8px;
             color: #0b1d33;
             font-weight: 900;
             line-height: 1.1;
         }
 
         .timer-display {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 900;
             color: #0b2c52;
             font-family: monospace;
         }
 
-        .audio-pro-controls { display: flex; align-items: center; gap: 4px; position: relative; }
+        .audio-pro-controls { display: flex; align-items: center; gap: 3px; position: relative; }
 
         .pro-btn {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
-            padding: 5px 7px;
-            border-radius: 5px;
+            padding: 4px 6px;
+            border-radius: 4px;
             border: 1.5px solid #ffffff;
             cursor: pointer;
             color: white;
@@ -276,21 +275,21 @@
         #import-menu {
             display: none;
             position: absolute;
-            bottom: 40px;
+            bottom: 36px;
             right: 0;
-            width: 145px;
+            width: 140px;
             background: #0d1f35;
             border: 2px solid #5a82b5;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.8);
             z-index: 100;
-            max-height: 120px;
+            max-height: 110px;
             overflow-y: auto;
             padding: 4px;
         }
 
         .import-option {
-            padding: 6px 8px;
+            padding: 5px 7px;
             font-size: 10px;
             font-weight: bold;
             color: white;
@@ -304,18 +303,18 @@
         .import-option:hover { background: #2563eb; }
 
         .playlist-panel {
-            flex-grow: 1;
+            flex: 1;
             height: 100%;
             background: #121620;
             border: 2px solid #203f66;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 10px;
+            padding: 8px;
         }
 
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #345988; border-radius: 4px; }
 
         #video-fullscreen-overlay {
@@ -446,7 +445,7 @@
                         <span>❤️</span> Donación
                     </a>
                     <button id="exit-btn" class="exit-btn-top">
-                        <i data-lucide="power" class="w-3.5 h-3.5"></i>
+                        <i data-lucide="power" class="w-3 h-3"></i>
                         <span>Salir</span>
                     </button>
                 </div>
@@ -454,7 +453,7 @@
 
             <div class="middle-panel">
                 <div class="album-art-container cursor-pointer" id="cover-container" title="Haz clic para ver en pantalla completa">
-                    <i data-lucide="radio" class="w-10 h-10 text-cyan-400"></i>
+                    <i data-lucide="radio" class="w-8 h-8 text-cyan-400"></i>
                 </div>
                 <div class="eq-canvas-container">
                     <canvas id="eqCanvas"></canvas>
@@ -467,7 +466,7 @@
 
             <div class="progress-container">
                 <div class="progress-header-info">
-                    <span id="playlist-count" class="text-[10px] text-cyan-300 font-mono font-bold">0 ítems</span>
+                    <span id="playlist-count" class="text-[9.5px] text-cyan-300 font-mono font-bold">0 ítems</span>
                 </div>
                 <input type="range" id="progress-bar" value="0" min="0" max="100" class="progress-bar-input">
             </div>
@@ -495,8 +494,8 @@
                         <input type="file" id="folder-input" webkitdirectory directory multiple class="hidden">
                         <input type="file" id="files-input" accept="audio/*,video/*,.*" multiple class="hidden">
 
-                        <button id="import-toggle-btn" class="bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold text-[10px] px-2.5 py-1.5 rounded-md shadow flex items-center gap-1 cursor-pointer">
-                            <i data-lucide="folder-plus" class="w-4 h-4 stroke-[2.5]"></i>
+                        <button id="import-toggle-btn" class="bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold text-[9.5px] px-2 py-1.5 rounded-md shadow flex items-center gap-1 cursor-pointer">
+                            <i data-lucide="folder-plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             <span>Importar ▾</span>
                         </button>
 
@@ -514,10 +513,10 @@
         </div>
 
         <div class="playlist-panel">
-            <div class="flex items-center justify-between pb-2 mb-2 border-b border-zinc-800">
+            <div class="flex items-center justify-between pb-1.5 mb-2 border-b border-zinc-800">
                 <div class="flex items-center gap-2">
-                    <button id="tab-radios" class="text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition">Radios Online</button>
-                    <button id="tab-local" class="text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition">Canciones Locales</button>
+                    <button id="tab-radios" class="text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition">Radios Online</button>
+                    <button id="tab-local" class="text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition">Canciones Locales</button>
                 </div>
             </div>
 
@@ -733,15 +732,15 @@
 
         tabRadios.addEventListener('click', () => {
             currentMode = 'radios';
-            tabRadios.className = "text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition";
-            tabLocal.className = "text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition";
+            tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
+            tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
             renderList();
         });
 
         tabLocal.addEventListener('click', () => {
             currentMode = 'local';
-            tabLocal.className = "text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition";
-            tabRadios.className = "text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition";
+            tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
+            tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
             renderList();
         });
 
@@ -758,7 +757,7 @@
                 const div = document.createElement('div');
                 const isSelected = index === currentIndex && currentMode === (item.isRadio ? 'radios' : 'local');
 
-                div.className = `flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition border ${
+                div.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer transition border ${
                     isSelected ? 'bg-cyan-950/40 border-cyan-500 text-white' : 'bg-black/40 border-zinc-800 hover:bg-zinc-900 text-slate-300'
                 }`;
 
@@ -767,16 +766,16 @@
                     (item.isRadio ? `<i data-lucide="radio" class="w-4 h-4 text-cyan-400"></i>` : `<i data-lucide="music" class="w-4 h-4 text-purple-400"></i>`));
 
                 div.innerHTML = `
-                    <div class="flex items-center gap-2.5 overflow-hidden">
-                        <div class="w-7 h-7 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center font-bold text-[11px] text-cyan-400 shrink-0 overflow-hidden">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <div class="w-6 h-6 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center font-bold text-[10px] text-cyan-400 shrink-0 overflow-hidden">
                             ${thumbHtml}
                         </div>
                         <div class="truncate">
-                            <h3 class="font-bold text-xs truncate">${item.title}</h3>
-                            <p class="text-[10px] text-slate-400 truncate">${item.artist}</p>
+                            <h3 class="font-bold text-[11px] truncate">${item.title}</h3>
+                            <p class="text-[9.5px] text-slate-400 truncate">${item.artist}</p>
                         </div>
                     </div>
-                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-zinc-900 text-cyan-300 border border-zinc-800 shrink-0">
+                    <span class="text-[8.5px] font-bold px-1.5 py-0.5 rounded bg-zinc-900 text-cyan-300 border border-zinc-800 shrink-0">
                         ${item.isRadio ? 'Radio' : (item.type === 'video' ? 'Video' : 'MP3')}
                     </span>
                 `;
@@ -842,7 +841,7 @@
                     audio.play().then(() => {
                         isPlaying = true;
                         playBtn.textContent = '❚❚';
-                        fsPlay.textContent = ' Pausa';
+                        fsPlay.textContent = '⏸ Pausa';
                         miniVideo.play().catch(() => {});
                     });
                 };
@@ -868,7 +867,7 @@
                 } else {
                     const audioCoverBox = document.createElement('div');
                     audioCoverBox.className = "w-full h-full bg-zinc-950 flex flex-col items-center justify-center gap-1 border border-cyan-500/50";
-                    audioCoverBox.innerHTML = `<i data-lucide="${item.isRadio ? 'radio' : 'music'}" class="w-6 h-6 text-cyan-400"></i><span class="text-[8px] font-bold text-cyan-300 tracking-wider">${item.isRadio ? 'RADIO' : 'AUDIO'}</span>`;
+                    audioCoverBox.innerHTML = `<i data-lucide="${item.isRadio ? 'radio' : 'music'}" class="w-5 h-5 text-cyan-400"></i><span class="text-[7.5px] font-bold text-cyan-300 tracking-wider">${item.isRadio ? 'RADIO' : 'AUDIO'}</span>`;
                     coverContainer.appendChild(audioCoverBox);
                 }
 
@@ -899,7 +898,7 @@
             audio.play().then(() => { 
                 isPlaying = true; 
                 playBtn.textContent = '❚❚'; 
-                fsPlay.textContent = ' Pausa';
+                fsPlay.textContent = '⏸ Pausa';
             });
         }
 
@@ -912,7 +911,7 @@
 
         fsPlay.addEventListener('click', () => {
             playBtn.click();
-            fsPlay.textContent = audio.paused ? '▶ Reproducir' : ' Pausa';
+            fsPlay.textContent = audio.paused ? '▶ Reproducir' : '⏸ Pausa';
             showFullscreenControls();
         });
 
@@ -1138,8 +1137,8 @@
 
             if (importedCount > 0) {
                 currentMode = 'local';
-                tabLocal.className = "text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition";
-                tabRadios.className = "text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition";
+                tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
+                tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
                 renderList();
                 currentIndex = localList.length - importedCount;
                 playItem(localList[currentIndex], false);
@@ -1181,7 +1180,7 @@
                     if(isVideoFullscreenActive) fsVideo.play();
                     isPlaying = true; 
                     playBtn.textContent = '❚❚'; 
-                    fsPlay.textContent = ' Pausa';
+                    fsPlay.textContent = '⏸ Pausa';
                 }
             } else { 
                 audio.pause(); 
@@ -1219,7 +1218,7 @@
             } else {
                 const defBox = document.createElement('div');
                 defBox.className = "w-full h-full bg-zinc-950 flex flex-col items-center justify-center gap-1 border border-cyan-500/50";
-                defBox.innerHTML = `<i data-lucide="${currentItem && currentItem.isRadio ? 'radio' : 'music'}" class="w-6 h-6 text-cyan-400"></i>`;
+                defBox.innerHTML = `<i data-lucide="${currentItem && currentItem.isRadio ? 'radio' : 'music'}" class="w-5 h-5 text-cyan-400"></i>`;
                 coverContainer.appendChild(defBox);
                 lucide.createIcons();
             }
