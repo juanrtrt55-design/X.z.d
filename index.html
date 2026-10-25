@@ -27,15 +27,6 @@
             align-items: center;
         }
 
-        @media screen and (orientation: portrait) {
-            .app-horizontal-layout {
-                transform: rotate(90deg);
-                transform-origin: center center;
-                width: 100vh !important;
-                height: 100vw !important;
-            }
-        }
-
         .app-horizontal-layout {
             display: flex;
             flex-direction: row;
@@ -501,7 +492,7 @@
                     <button id="btn-8d" class="pro-btn bg-purple-700">6D: OFF</button>
 
                     <div class="relative">
-                        <input type="file" id="folder-input" accept="audio/*,video/*,.*" webkitdirectory directory multiple class="hidden">
+                        <input type="file" id="folder-input" webkitdirectory directory multiple class="hidden">
                         <input type="file" id="files-input" accept="audio/*,video/*,.*" multiple class="hidden">
 
                         <button id="import-toggle-btn" class="bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold text-[10px] px-2.5 py-1.5 rounded-md shadow flex items-center gap-1 cursor-pointer">
@@ -542,7 +533,7 @@
             <input type="range" id="fs-progress-bar" value="0" min="0" max="100" class="progress-bar-input">
             <div class="ghost-buttons-row">
                 <button class="ghost-btn" id="fs-prev">⏮ Anterior</button>
-                <button class="ghost-btn" id="fs-play"> Pausa</button>
+                <button class="ghost-btn" id="fs-play">⏸ Pausa</button>
                 <button class="ghost-btn" id="fs-next">Siguiente ⏭</button>
                 <button class="ghost-btn bg-red-600 flex items-center gap-1.5" id="fs-close" title="Salir"><span class="fs-classic-box"></span> Salir</button>
             </div>
@@ -641,6 +632,9 @@
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(() => {});
             }
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.ScreenOrientation) {
+                window.Capacitor.Plugins.ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
+            }
         }
         window.addEventListener('load', lockOrientation);
         ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, lockOrientation, {once: true}));
@@ -697,17 +691,15 @@
         let isVideoFullscreenActive = false;
         let controlsTimeout = null;
 
-        // Lógica de mostrar/ocultar controles en pantalla completa al tocar
         function showFullscreenControls() {
             ghostControlsBox.classList.add('visible');
             clearTimeout(controlsTimeout);
             controlsTimeout = setTimeout(() => {
                 ghostControlsBox.classList.remove('visible');
-            }, 3500); // Se ocultan solos tras 3.5 segundos
+            }, 3500);
         }
 
         videoOverlay.addEventListener('click', (e) => {
-            // Evitar que se oculten si hace clic directamente sobre los botones o barra
             if (e.target.closest('.ghost-controls')) return;
             showFullscreenControls();
         });
@@ -1097,9 +1089,14 @@
             if (!files || files.length === 0) return;
 
             const mediaFiles = Array.from(files);
-            if (mediaFiles.length === 0) return;
+            let importedCount = 0;
 
             mediaFiles.forEach((file, idx) => {
+                const isAudioOrVideo = file.type.startsWith('audio/') || file.type.startsWith('video/') || /\.(mp3|wav|flac|aac|ogg|m4a|mp4|mkv|webm|avi|mov|3gp|flv|wmv)$/i.test(file.name);
+                
+                if (!isAudioOrVideo) return;
+
+                importedCount++;
                 const isVideo = file.type.startsWith('video/') || /\.(mp4|mkv|webm|avi|mov|3gp|flv|wmv)$/i.test(file.name);
                 
                 let cleanName = file.name
@@ -1132,9 +1129,6 @@
                                 }
                                 newItem.cover = `data:${format};base64,${btoa(base64String)}`;
                                 renderList();
-                                if (currentIndex === localList.indexOf(newItem)) {
-                                    playItem(newItem, false);
-                                }
                             }
                         },
                         onError: function(error) {}
@@ -1142,12 +1136,14 @@
                 }
             });
 
-            currentMode = 'local';
-            tabLocal.className = "text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition";
-            tabRadios.className = "text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition";
-            renderList();
-            currentIndex = localList.length - mediaFiles.length;
-            playItem(localList[currentIndex], false);
+            if (importedCount > 0) {
+                currentMode = 'local';
+                tabLocal.className = "text-[11px] px-3 py-1.5 rounded bg-cyan-600 text-white font-bold transition";
+                tabRadios.className = "text-[11px] px-3 py-1.5 rounded bg-zinc-800 text-slate-300 font-bold transition";
+                renderList();
+                currentIndex = localList.length - importedCount;
+                playItem(localList[currentIndex], false);
+            }
         }
 
         folderInput.addEventListener('change', (e) => handleImportedFiles(e.target.files));
