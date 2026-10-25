@@ -1,6 +1,5 @@
 {
   "appId": "com.tuempresa.carplayer",
   "appName": "Radio & Local Player",
-  "webDir": ".",
-  "bundledWebRuntime": false
+  "webDir": "www"
 }
