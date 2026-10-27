@@ -30,7 +30,7 @@
         .app-horizontal-layout {
             display: flex;
             flex-direction: row;
-            gap: 8px;
+            gap: 6px;
             width: 100vw;
             height: 100vh;
             padding: 6px;
@@ -38,7 +38,8 @@
         }
 
         .player-skin {
-            flex: 1.2;
+            flex: 1.8;
+            min-width: 320px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -62,11 +63,11 @@
 
         .station-title {
             color: #ffffff;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 900;
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 3px #000;
-            max-width: 220px;
+            max-width: 140px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -75,45 +76,71 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
+        }
+
+        .top-action-btn {
+            background: linear-gradient(180deg, #2b7bc3, #154675);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 7px;
+            border-radius: 5px;
+            border: 1.5px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            transition: transform 0.1s;
+            text-decoration: none;
+            min-width: 26px;
+            height: 24px;
+        }
+        .top-action-btn:active { transform: scale(0.92); }
+
+        .top-action-btn.active-mode {
+            background: linear-gradient(180deg, #1e40af, #1e3a8a) !important;
+            border-color: #93c5fd !important;
+            box-shadow: 0 0 6px rgba(147, 197, 253, 0.8);
         }
 
         .paypal-btn-top {
             background: linear-gradient(180deg, #2563eb, #1d4ed8);
             color: #ffffff;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
-            padding: 3px 7px;
+            padding: 3px 6px;
             border-radius: 5px;
-            border: 1px solid #93c5fd;
+            border: 1.5px solid #ffffff;
             display: flex;
             align-items: center;
             gap: 3px;
             cursor: pointer;
             text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            height: 24px;
             transition: transform 0.1s;
         }
-
-        .paypal-btn-top:active { transform: scale(0.95); }
+        .paypal-btn-top:active { transform: scale(0.92); }
 
         .exit-btn-top {
             background: linear-gradient(180deg, #dc2626, #991b1b);
             color: #ffffff;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
-            padding: 3px 8px;
+            padding: 3px 7px;
             border-radius: 5px;
-            border: 1px solid #fca5a5;
+            border: 1.5px solid #ffffff;
             display: flex;
             align-items: center;
             gap: 3px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            height: 24px;
             transition: transform 0.1s;
         }
-
-        .exit-btn-top:active { transform: scale(0.95); }
+        .exit-btn-top:active { transform: scale(0.92); }
 
         .middle-panel {
             display: flex;
@@ -123,15 +150,15 @@
             border: 2px solid #203f66;
             border-radius: 4px;
             flex-grow: 1;
-            margin: 3px 0;
-            max-height: 105px;
+            margin: 2px 0 0 0;
+            min-height: 140px;
         }
 
         .album-art-container {
-            width: 100px;
-            min-width: 100px;
-            border: 1px solid #444;
-            background: #111;
+            flex: 1;
+            min-width: 0;
+            border: 1px solid #222;
+            background: #000000;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -139,18 +166,29 @@
             justify-content: center;
         }
 
-        .album-art-container img, .album-art-container video {
+        .album-art-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
+        .album-art-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000000;
+        }
+
         .eq-canvas-container {
-            flex-grow: 1;
+            flex: 1;
             background: #050811;
             position: relative;
             overflow: hidden;
             border: 1px solid #1a2a3a;
+        }
+
+        .middle-panel.is-video-mode .eq-canvas-container {
+            display: none !important;
         }
 
         canvas {
@@ -159,79 +197,57 @@
             display: block;
         }
 
-        .marquee-box {
-            background: #000;
-            border: 1px solid #203f66;
-            color: #ffffff;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 3px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-radius: 3px;
-            margin-bottom: 3px;
-        }
-
-        .marquee-text {
-            display: inline-block;
-            animation: marquee 12s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
         .progress-header-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 4px;
-            margin-bottom: 2px;
         }
 
         .progress-container {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            margin-bottom: 3px;
-            background: rgba(0,0,0,0.4);
-            padding: 3px 6px;
-            border-radius: 4px;
+            gap: 0px;
+            margin-bottom: 0px;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 5px 0px 5px;
+            border-radius: 4px 4px 0 0;
         }
 
         .progress-bar-input {
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: #203f66;
             border-radius: 3px;
             appearance: none;
             cursor: pointer;
             accent-color: #ffcc00;
+            display: block;
+            margin-bottom: 0px;
         }
 
         .bottom-panel {
             background: linear-gradient(180deg, #e6ecf2 0%, #adb5c0 50%, #788291 100%);
             border-radius: 0 0 6px 6px;
-            padding: 5px 6px;
+            padding: 4px 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid #ffffff;
-            gap: 4px;
+            border-top: none;
+            gap: 3px;
         }
 
         .btn-group { display: flex; gap: 3px; }
 
         .control-btn {
-            width: 31px;
-            height: 29px;
+            width: 28px;
+            height: 26px;
             background: linear-gradient(180deg, #2b7bc3, #154675);
             border: 1.5px solid #ffffff;
             border-radius: 5px;
             color: white;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.4);
@@ -243,25 +259,25 @@
         .control-btn:active { transform: scale(0.92); }
 
         .info-stats {
-            font-size: 8px;
+            font-size: 7.5px;
             color: #0b1d33;
             font-weight: 900;
             line-height: 1.1;
         }
 
         .timer-display {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 900;
             color: #0b2c52;
             font-family: monospace;
         }
 
-        .audio-pro-controls { display: flex; align-items: center; gap: 3px; position: relative; }
+        .audio-pro-controls { display: flex; align-items: center; gap: 2px; position: relative; }
 
         .pro-btn {
-            font-size: 9.5px;
+            font-size: 9px;
             font-weight: 800;
-            padding: 4px 6px;
+            padding: 3px 5px;
             border-radius: 4px;
             border: 1.5px solid #ffffff;
             cursor: pointer;
@@ -275,9 +291,9 @@
         #import-menu {
             display: none;
             position: absolute;
-            bottom: 36px;
+            bottom: 34px;
             right: 0;
-            width: 140px;
+            width: 130px;
             background: #0d1f35;
             border: 2px solid #5a82b5;
             border-radius: 8px;
@@ -289,8 +305,8 @@
         }
 
         .import-option {
-            padding: 5px 7px;
-            font-size: 10px;
+            padding: 5px 6px;
+            font-size: 9.5px;
             font-weight: bold;
             color: white;
             cursor: pointer;
@@ -302,8 +318,13 @@
         }
         .import-option:hover { background: #2563eb; }
 
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #345988; border-radius: 4px; }
+
         .playlist-panel {
-            flex: 1;
+            flex: 1.1;
+            min-width: 220px;
+            max-width: 290px;
             height: 100%;
             background: #121620;
             border: 2px solid #203f66;
@@ -312,10 +333,8 @@
             flex-direction: column;
             overflow: hidden;
             padding: 8px;
+            flex-shrink: 0;
         }
-
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #345988; border-radius: 4px; }
 
         #video-fullscreen-overlay {
             display: none;
@@ -324,25 +343,33 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000;
+            background: #000000;
             z-index: 9998;
             justify-content: center;
             align-items: center;
         }
 
-        #video-fullscreen-overlay video {
+        #video-target-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #video-target-container video {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            background: #000000;
         }
 
-        /* CONTROLES FANTASMA CON AUTO-OCULTAMIENTO */
         .ghost-controls {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(13, 31, 53, 0.85);
+            background: rgba(13, 31, 53, 0.9);
             border: 1px solid rgba(147, 197, 253, 0.4);
             padding: 10px 18px;
             border-radius: 20px;
@@ -352,7 +379,7 @@
             width: 90%;
             max-width: 480px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.9);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -395,6 +422,43 @@
             border-radius: 2px;
         }
 
+        #search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 17, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-box {
+            background: #0d1f35;
+            border: 2px solid #5a82b5;
+            border-radius: 10px;
+            padding: 15px;
+            width: 90%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+        }
+
+        .search-input {
+            width: 100%;
+            background: #000;
+            border: 1px solid #345988;
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+        }
+
         #goodbye-modal {
             display: none;
             position: fixed;
@@ -431,28 +495,55 @@
             background: #050811;
             padding: 10px;
         }
+
+        #internal-file-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 17, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .internal-file-box {
+            background: #0d1f35;
+            border: 2px solid #5a82b5;
+            border-radius: 10px;
+            padding: 12px;
+            width: 90%;
+            max-width: 450px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+        }
     </style>
 </head> 
 <body> 
 
     <div class="app-horizontal-layout">
-        <!-- REPRODUCTOR (IZQUIERDA) -->
         <div class="player-skin">
             <div class="player-header">
                 <div class="station-title" id="current-title">Radio Melodias</div>
                 <div class="header-actions">
-                    <a href="https://www.paypal.com/ncp/payment/ADNKXER8UAACL" target="_blank" rel="noopener noreferrer" id="paypal-external-btn" class="paypal-btn-top">
-                        <span>❤️</span> Donación
+                    <button id="btn-shuffle" class="top-action-btn" title="Modo Aleatorio: OFF">Aleatorio</button>
+                    <button id="btn-repeat" class="top-action-btn" title="Modo Repetir: OFF">Desactivado</button>
+                    <button id="btn-search-open" class="top-action-btn" title="Buscar">🔍</button>
+                    <a href="https://www.paypal.com/ncp/payment/ADNKXER8UAACL" target="_blank" id="paypal-external-btn" class="paypal-btn-top">
+                        <span>❤️</span>
                     </a>
-                    <button id="exit-btn" class="exit-btn-top">
+                    <button id="exit-btn" class="exit-btn-top" title="Salir">
                         <i data-lucide="power" class="w-3 h-3"></i>
-                        <span>Salir</span>
                     </button>
                 </div>
             </div>
 
-            <div class="middle-panel">
-                <div class="album-art-container cursor-pointer" id="cover-container" title="Haz clic para ver en pantalla completa">
+            <div class="middle-panel" id="middle-panel">
+                <div class="album-art-container cursor-pointer" id="cover-container" title="Carátula / Pantalla completa">
                     <i data-lucide="radio" class="w-8 h-8 text-cyan-400"></i>
                 </div>
                 <div class="eq-canvas-container">
@@ -460,13 +551,9 @@
                 </div>
             </div>
 
-            <div class="marquee-box">
-                <div class="marquee-text" id="marquee-song-text">Selecciona una emisora o archivo local</div>
-            </div>
-
             <div class="progress-container">
                 <div class="progress-header-info">
-                    <span id="playlist-count" class="text-[9.5px] text-cyan-300 font-mono font-bold">0 ítems</span>
+                    <span id="playlist-count" class="text-[9px] text-cyan-300 font-mono font-bold">0 ítems</span>
                 </div>
                 <input type="range" id="progress-bar" value="0" min="0" max="100" class="progress-bar-input">
             </div>
@@ -494,16 +581,16 @@
                         <input type="file" id="folder-input" webkitdirectory directory multiple class="hidden">
                         <input type="file" id="files-input" accept="audio/*,video/*,.*" multiple class="hidden">
 
-                        <button id="import-toggle-btn" class="bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold text-[9.5px] px-2 py-1.5 rounded-md shadow flex items-center gap-1 cursor-pointer">
+                        <button id="import-toggle-btn" class="bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold text-[9px] px-2 py-1 rounded-md shadow flex items-center gap-1 cursor-pointer">
                             <i data-lucide="folder-plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             <span>Importar ▾</span>
                         </button>
 
                         <div id="import-menu" class="custom-scroll">
-                            <div class="import-option" onclick="document.getElementById('folder-input').click(); toggleImportMenu();">
+                            <div class="import-option" onclick="lockLandscape(); document.getElementById('folder-input').click(); toggleImportMenu();">
                                 <i data-lucide="folder" class="w-3.5 h-3.5 text-yellow-400"></i> Carpeta
                             </div>
-                            <div class="import-option" onclick="document.getElementById('files-input').click(); toggleImportMenu();">
+                            <div class="import-option" onclick="lockLandscape(); openInternalFileSelector(); toggleImportMenu();">
                                 <i data-lucide="file" class="w-3.5 h-3.5 text-cyan-400"></i> Archivos
                             </div>
                         </div>
@@ -514,9 +601,9 @@
 
         <div class="playlist-panel">
             <div class="flex items-center justify-between pb-1.5 mb-2 border-b border-zinc-800">
-                <div class="flex items-center gap-2">
-                    <button id="tab-radios" class="text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition">Radios Online</button>
-                    <button id="tab-local" class="text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition">Canciones Locales</button>
+                <div class="flex items-center gap-1.5">
+                    <button id="tab-radios" class="text-[10px] px-2 py-1 rounded bg-cyan-600 text-white font-bold transition">Radios</button>
+                    <button id="tab-local" class="text-[10px] px-2 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition">Locales</button>
                 </div>
             </div>
 
@@ -525,21 +612,44 @@
         </div>
     </div>
 
-    <!-- PANTALLA COMPLETA DE VÍDEO CON CONTROLES AUTO-OCULTABLES -->
+    <!-- MODAL BUSCAR -->
+    <div id="search-modal">
+        <div class="search-box">
+            <div class="flex justify-between items-center text-white font-bold text-xs">
+                <span>Buscar en Lista</span>
+                <button id="btn-search-close" class="text-red-400 cursor-pointer">✕</button>
+            </div>
+            <input type="text" id="search-input-field" class="search-input" placeholder="Escribe para buscar...">
+            <div id="search-results-container" class="custom-scroll max-h-[150px] overflow-y-auto space-y-1"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN INTERNA HORIZONTAL -->
+    <div id="internal-file-modal">
+        <div class="internal-file-box">
+            <div class="flex justify-between items-center text-white font-bold text-xs border-b border-zinc-700 pb-2">
+                <span>Seleccionar Archivos Locales</span>
+                <button id="btn-internal-close" class="text-red-400 cursor-pointer text-sm font-bold px-2">✕ Cerrar</button>
+            </div>
+            <div class="text-[10px] text-cyan-300">Elige los archivos de audio o video desde tu almacenamiento:</div>
+            <input type="file" id="real-file-input" accept="audio/*,video/*,.*" multiple class="text-white text-[10px] bg-black p-2 rounded border border-zinc-700 w-full cursor-pointer">
+            <div class="text-[9px] text-slate-400 italic"></div>
+        </div>
+    </div>
+
     <div id="video-fullscreen-overlay">
-        <video id="fs-video" playsinline muted></video>
+        <div id="video-target-container"></div>
         <div class="ghost-controls" id="ghost-controls-box">
             <input type="range" id="fs-progress-bar" value="0" min="0" max="100" class="progress-bar-input">
             <div class="ghost-buttons-row">
                 <button class="ghost-btn" id="fs-prev">⏮ Anterior</button>
-                <button class="ghost-btn" id="fs-play">⏸ Pausa</button>
+                <button class="ghost-btn" id="fs-play">Pausa</button>
                 <button class="ghost-btn" id="fs-next">Siguiente ⏭</button>
                 <button class="ghost-btn bg-red-600 flex items-center gap-1.5" id="fs-close" title="Salir"><span class="fs-classic-box"></span> Salir</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE DESPEDIDA -->
     <div id="goodbye-modal">
         <div class="goodbye-box">
             <svg class="goodbye-img" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -556,10 +666,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <script>
+        function lockLandscape() {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.ScreenOrientation) {
+                window.Capacitor.Plugins.ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
+            }
+        }
+        window.addEventListener('load', lockLandscape);
+        ['click', 'touchstart', 'focus'].forEach(evt => window.addEventListener(evt, lockLandscape, {passive: true}));
+
         const importToggleBtn = document.getElementById('import-toggle-btn');
         const importMenu = document.getElementById('import-menu');
 
         function toggleImportMenu() {
+            lockLandscape();
             if (importMenu.style.display === 'block') {
                 importMenu.style.display = 'none';
             } else {
@@ -576,26 +698,64 @@
             importMenu.style.display = 'none';
         });
 
+        const internalFileModal = document.getElementById('internal-file-modal');
+        const btnInternalClose = document.getElementById('btn-internal-close');
+        const realFileInput = document.getElementById('real-file-input');
+
+        function openInternalFileSelector() {
+            lockLandscape();
+            internalFileModal.style.display = 'flex';
+        }
+
+        btnInternalClose.addEventListener('click', () => {
+            lockLandscape();
+            internalFileModal.style.display = 'none';
+        });
+
+        realFileInput.addEventListener('change', (e) => {
+            lockLandscape();
+            handleImportedFiles(e.target.files);
+            internalFileModal.style.display = 'none';
+            realFileInput.value = '';
+        });
+
+        let wakeLock = null;
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
-                    await navigator.wakeLock.request('screen');
+                    wakeLock = await navigator.wakeLock.request('screen');
                 }
             } catch (err) {}
         }
         window.addEventListener('load', requestWakeLock);
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') requestWakeLock();
+        document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible') {
+                await requestWakeLock();
+                lockLandscape();
+            }
         });
+        setInterval(requestWakeLock, 30000);
 
-        document.getElementById('paypal-external-btn').addEventListener('click', function(e) {
+        // Integración directa con @capacitor/browser para abrir en Chrome externo
+        document.getElementById('paypal-external-btn').addEventListener('click', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            lockLandscape();
             const url = this.href;
+            
             try {
                 if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser) {
-                    window.Capacitor.Plugins.Browser.open({ url: url });
+                    await window.Capacitor.Plugins.Browser.open({ url: url });
                 } else {
-                    window.open(url, '_system');
+                    const intentWindow = window.open(url, '_system');
+                    if (!intentWindow) {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.target = '_blank';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
                 }
             } catch (err) {
                 window.open(url, '_blank');
@@ -604,7 +764,7 @@
 
         document.getElementById('exit-btn').addEventListener('click', function() {
             audio.pause();
-            fsVideo.pause();
+            if (sharedVideo) sharedVideo.pause();
             isPlaying = false;
             
             const goodbyeModal = document.getElementById('goodbye-modal');
@@ -627,17 +787,6 @@
             }, 2200);
         });
 
-        function lockOrientation() {
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(() => {});
-            }
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.ScreenOrientation) {
-                window.Capacitor.Plugins.ScreenOrientation.lock({ orientation: 'landscape' }).catch(() => {});
-            }
-        }
-        window.addEventListener('load', lockOrientation);
-        ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, lockOrientation, {once: true}));
-
         const audio = document.getElementById('mainAudio');
         const playBtn = document.getElementById('playBtn');
         const stopBtn = document.getElementById('stopBtn');
@@ -648,19 +797,19 @@
         const currentTimeEl = document.getElementById('current-time');
         const labelTrackTime = document.getElementById('label-track-time');
         const currentTitleEl = document.getElementById('current-title');
-        const marqueeTextEl = document.getElementById('marquee-song-text');
         const mediaListContainer = document.getElementById('media-list-container');
         const playlistCountEl = document.getElementById('playlist-count');
         const folderInput = document.getElementById('folder-input');
         const filesInput = document.getElementById('files-input');
         const coverContainer = document.getElementById('cover-container');
+        const middlePanel = document.getElementById('middle-panel');
         const tabRadios = document.getElementById('tab-radios');
         const tabLocal = document.getElementById('tab-local');
         
         const progressBar = document.getElementById('progress-bar');
         const fsProgressBar = document.getElementById('fs-progress-bar');
         const videoOverlay = document.getElementById('video-fullscreen-overlay');
-        const fsVideo = document.getElementById('fs-video');
+        const videoTargetContainer = document.getElementById('video-target-container');
         const fsPlay = document.getElementById('fs-play');
         const fsPrev = document.getElementById('fs-prev');
         const fsNext = document.getElementById('fs-next');
@@ -672,7 +821,15 @@
         const btnMono = document.getElementById('btn-mono');
         const btn8D = document.getElementById('btn-8d');
 
-        let audioCtx, analyser, source;
+        const btnShuffle = document.getElementById('btn-shuffle');
+        const btnRepeat = document.getElementById('btn-repeat');
+        const btnSearchOpen = document.getElementById('btn-search-open');
+        const searchModal = document.getElementById('search-modal');
+        const btnSearchClose = document.getElementById('btn-search-close');
+        const searchInputField = document.getElementById('search-input-field');
+        const searchResultsContainer = document.getElementById('search-results-container');
+
+        let audioCtx, analyser, audioSourceNode, videoSourceNode;
         let subEngine, deepEngine, tweeterNode, monoNode, sPanner, limiter;
         let dataArray, bufferLength;
         let isPlaying = false;
@@ -680,6 +837,8 @@
         let is8DActive = false;
         let isBassActive = false;
         let isTweterActive = false;
+        let isShuffleActive = false;
+        let repeatMode = 0; 
         let pannerAngle = 0;
         
         let radiosList = [];
@@ -689,6 +848,90 @@
         let hlsInstance = null;
         let isVideoFullscreenActive = false;
         let controlsTimeout = null;
+        let sharedVideo = null;
+
+        btnSearchOpen.addEventListener('click', () => {
+            lockLandscape();
+            searchModal.style.display = 'flex';
+            searchInputField.value = '';
+            searchResultsContainer.innerHTML = '';
+            searchInputField.focus();
+        });
+
+        btnSearchClose.addEventListener('click', () => {
+            lockLandscape();
+            searchModal.style.display = 'none';
+        });
+
+        searchInputField.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            searchResultsContainer.innerHTML = '';
+            if (!query) return;
+
+            const list = getActiveList();
+            const matches = list.map((item, idx) => ({item, idx})).filter(obj => obj.item.title.toLowerCase().includes(query));
+
+            matches.forEach(match => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between p-1.5 bg-black/60 rounded border border-zinc-700 cursor-pointer hover:bg-zinc-800 text-white text-[10px]";
+                div.innerHTML = `<span class="truncate">${match.item.title}</span><span class="text-cyan-400 font-bold">Reproducir</span>`;
+                div.addEventListener('click', () => {
+                    lockLandscape();
+                    currentIndex = match.idx;
+                    playItem(getActiveList()[currentIndex], getActiveList()[currentIndex].type === 'video');
+                    renderList();
+                    searchModal.style.display = 'none';
+                });
+                searchResultsContainer.appendChild(div);
+            });
+        });
+
+        btnShuffle.addEventListener('click', () => {
+            lockLandscape();
+            isShuffleActive = !isShuffleActive;
+            if (isShuffleActive) {
+                btnShuffle.classList.add('active-mode');
+                btnShuffle.title = "Modo Aleatorio: ON";
+            } else {
+                btnShuffle.classList.remove('active-mode');
+                btnShuffle.title = "Modo Aleatorio: OFF";
+            }
+        });
+
+        btnRepeat.addEventListener('click', () => {
+            lockLandscape();
+            repeatMode = (repeatMode + 1) % 3;
+            if (repeatMode === 0) {
+                btnRepeat.textContent = "Descativado";
+                btnRepeat.classList.remove('active-mode');
+                btnRepeat.title = "Modo Repetir: OFF";
+            } else if (repeatMode === 1) {
+                btnRepeat.textContent = " All";
+                btnRepeat.classList.add('active-mode');
+                btnRepeat.title = "Modo Repetir: Todos";
+            } else {
+                btnRepeat.textContent = "Repetir1";
+                btnRepeat.classList.add('active-mode');
+                btnRepeat.title = "Modo Repetir: Uno";
+            }
+        });
+
+        function getNextIndex() {
+            const list = getActiveList();
+            if (list.length === 0) return 0;
+            if (repeatMode === 2) return currentIndex;
+            if (isShuffleActive) {
+                let rand;
+                do {
+                    rand = Math.floor(Math.random() * list.length);
+                } while (rand === currentIndex && list.length > 1);
+                return rand;
+            }
+            if (currentIndex + 1 >= list.length) {
+                return repeatMode === 1 ? 0 : currentIndex;
+            }
+            return currentIndex + 1;
+        }
 
         function showFullscreenControls() {
             ghostControlsBox.classList.add('visible');
@@ -704,6 +947,7 @@
         });
 
         function resizeCanvas() {
+            lockLandscape();
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
         }
@@ -731,16 +975,18 @@
         }
 
         tabRadios.addEventListener('click', () => {
+            lockLandscape();
             currentMode = 'radios';
-            tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
-            tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
+            tabRadios.className = "text-[10px] px-2 py-1 rounded bg-cyan-600 text-white font-bold transition";
+            tabLocal.className = "text-[10px] px-2 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
             renderList();
         });
 
         tabLocal.addEventListener('click', () => {
+            lockLandscape();
             currentMode = 'local';
-            tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
-            tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
+            tabLocal.className = "text-[10px] px-2 py-1 rounded bg-cyan-600 text-white font-bold transition";
+            tabRadios.className = "text-[10px] px-2 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
             renderList();
         });
 
@@ -749,6 +995,7 @@
         }
 
         function renderList() {
+            lockLandscape();
             mediaListContainer.innerHTML = '';
             const list = getActiveList();
             playlistCountEl.textContent = `${list.length} ítems`;
@@ -772,21 +1019,18 @@
                         </div>
                         <div class="truncate">
                             <h3 class="font-bold text-[11px] truncate">${item.title}</h3>
-                            <p class="text-[9.5px] text-slate-400 truncate">${item.artist}</p>
+                            <p class="text-[9px] text-slate-400 truncate">${item.artist}</p>
                         </div>
                     </div>
-                    <span class="text-[8.5px] font-bold px-1.5 py-0.5 rounded bg-zinc-900 text-cyan-300 border border-zinc-800 shrink-0">
+                    <span class="text-[8px] font-bold px-1.5 py-0.5 rounded bg-zinc-900 text-cyan-300 border border-zinc-800 shrink-0">
                         ${item.isRadio ? 'Radio' : (item.type === 'video' ? 'Video' : 'MP3')}
                     </span>
                 `;
 
                 div.addEventListener('click', () => {
-                    if (currentIndex === index && item.type === 'video') {
-                        isVideoFullscreenActive = true;
-                        videoOverlay.style.display = 'flex';
-                        fsVideo.currentTime = audio.currentTime;
-                        fsVideo.play();
-                        showFullscreenControls();
+                    lockLandscape();
+                    if (currentIndex === index && item.type === 'video' && sharedVideo) {
+                        openVideoFullscreen();
                     } else {
                         currentIndex = index;
                         playItem(list[currentIndex], item.type === 'video');
@@ -799,63 +1043,94 @@
             lucide.createIcons();
         }
 
+        function openVideoFullscreen() {
+            lockLandscape();
+            if (!sharedVideo) return;
+            isVideoFullscreenActive = true;
+            videoTargetContainer.innerHTML = '';
+            videoTargetContainer.appendChild(sharedVideo);
+            videoOverlay.style.display = 'flex';
+            showFullscreenControls();
+        }
+
         coverContainer.addEventListener('click', () => {
+            lockLandscape();
             const list = getActiveList();
             const currentItem = list[currentIndex];
-            if (currentItem && currentItem.type === 'video') {
-                isVideoFullscreenActive = true;
-                videoOverlay.style.display = 'flex';
-                fsVideo.currentTime = audio.currentTime;
-                fsVideo.play();
-                showFullscreenControls();
+            if (currentItem && currentItem.type === 'video' && sharedVideo) {
+                openVideoFullscreen();
             }
         });
 
         function playItem(item, openFullscreen = false) {
+            lockLandscape();
             currentTitleEl.textContent = item.title;
-            marqueeTextEl.textContent = `${item.title} - ${item.artist}`;
             
             audio.pause();
-            audio.src = '';
-            fsVideo.pause();
-            fsVideo.src = '';
+            audio.removeAttribute('src');
+            audio.load();
+
+            if (sharedVideo) {
+                sharedVideo.pause();
+                sharedVideo.removeAttribute('src');
+                sharedVideo.load();
+                sharedVideo = null;
+            }
+
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
 
             coverContainer.innerHTML = '';
-
+            videoTargetContainer.innerHTML = '';
             let streamUrl = item.isRadio ? (item.urls ? item.urls[0] : item.url) : (item.url || item.src);
 
             if (item.type === 'video') {
-                const miniVideo = document.createElement('video');
-                miniVideo.src = streamUrl;
-                miniVideo.autoplay = true;
-                miniVideo.muted = true;
-                miniVideo.playsInline = true;
-                miniVideo.loop = true;
-                miniVideo.className = "w-full h-full object-cover cursor-pointer";
-                coverContainer.appendChild(miniVideo);
+                middlePanel.classList.add('is-video-mode');
 
-                fsVideo.src = streamUrl;
-                audio.src = streamUrl;
-                
-                audio.onloadedmetadata = () => {
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        playBtn.textContent = '❚❚';
-                        fsPlay.textContent = '⏸ Pausa';
-                        miniVideo.play().catch(() => {});
-                    });
-                };
+                audio.src = "";
+                sharedVideo = document.createElement('video');
+                sharedVideo.src = streamUrl;
+                sharedVideo.autoplay = true;
+                sharedVideo.playsInline = true;
+                sharedVideo.crossOrigin = "anonymous";
+
+                sharedVideo.addEventListener('ended', () => {
+                    lockLandscape();
+                    if (repeatMode === 2) {
+                        sharedVideo.currentTime = 0;
+                        sharedVideo.play();
+                    } else {
+                        nextBtn.click();
+                    }
+                });
 
                 if (openFullscreen) {
                     isVideoFullscreenActive = true;
                     videoOverlay.style.display = 'flex';
-                    fsVideo.currentTime = 0;
-                    fsVideo.play();
+                    videoTargetContainer.appendChild(sharedVideo);
                     showFullscreenControls();
+                } else {
+                    isVideoFullscreenActive = false;
+                    videoOverlay.style.display = 'none';
+                    coverContainer.appendChild(sharedVideo);
                 }
+
+                initAudioContext();
+                connectVideoToAudioContext(sharedVideo);
+
+                sharedVideo.play().then(() => {
+                    isPlaying = true;
+                    playBtn.textContent = '❚❚';
+                    fsPlay.textContent = 'Pausa';
+                }).catch(() => {});
 
                 labelTrackTime.textContent = "Tiempo Video:";
             } else {
+                middlePanel.classList.remove('is-video-mode');
+
+                sharedVideo = null;
                 isVideoFullscreenActive = false;
                 videoOverlay.style.display = 'none';
 
@@ -871,16 +1146,21 @@
                     coverContainer.appendChild(audioCoverBox);
                 }
 
-                if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
-
                 if (streamUrl && streamUrl.includes('.m3u8')) {
                     if (Hls.isSupported()) {
                         hlsInstance = new Hls();
                         hlsInstance.loadSource(streamUrl);
                         hlsInstance.attachMedia(audio);
                         hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => startPlayback());
-                    } else { audio.src = streamUrl; startPlayback(); }
-                } else { audio.src = streamUrl; audio.load(); startPlayback(); }
+                    } else { 
+                        audio.src = streamUrl; 
+                        startPlayback(); 
+                    }
+                } else { 
+                    audio.src = streamUrl; 
+                    audio.load(); 
+                    startPlayback(); 
+                }
 
                 if (item.isRadio) {
                     currentTimeEl.textContent = "LIVE STREAM";
@@ -889,51 +1169,90 @@
                     labelTrackTime.textContent = "Tiempo MP3:";
                 }
             }
+            resizeCanvas();
             lucide.createIcons();
         }
 
         function startPlayback() {
+            lockLandscape();
             initAudioContext();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             audio.play().then(() => { 
                 isPlaying = true; 
                 playBtn.textContent = '❚❚'; 
-                fsPlay.textContent = '⏸ Pausa';
-            });
+                fsPlay.textContent = ' Pausa';
+            }).catch(err => {});
         }
 
         fsClose.addEventListener('click', () => {
+            lockLandscape();
             isVideoFullscreenActive = false;
-            fsVideo.pause();
             videoOverlay.style.display = 'none';
             ghostControlsBox.classList.remove('visible');
+            if (sharedVideo) {
+                coverContainer.innerHTML = '';
+                coverContainer.appendChild(sharedVideo);
+            }
         });
 
         fsPlay.addEventListener('click', () => {
-            playBtn.click();
-            fsPlay.textContent = audio.paused ? '▶ Reproducir' : '⏸ Pausa';
+            lockLandscape();
+            if (sharedVideo) {
+                if (sharedVideo.paused) {
+                    sharedVideo.play();
+                    fsPlay.textContent = ' Pausa';
+                    playBtn.textContent = '❚❚';
+                    isPlaying = true;
+                } else {
+                    sharedVideo.pause();
+                    fsPlay.textContent = '▶ Reproducir';
+                    playBtn.textContent = '▶';
+                    isPlaying = false;
+                }
+            } else {
+                playBtn.click();
+                fsPlay.textContent = audio.paused ? '▶ Reproducir' : '⏸ Pausa';
+            }
             showFullscreenControls();
         });
 
         fsPrev.addEventListener('click', () => { 
+            lockLandscape();
             prevBtn.click(); 
             showFullscreenControls();
         });
 
         fsNext.addEventListener('click', () => { 
+            lockLandscape();
             nextBtn.click(); 
             showFullscreenControls();
         });
 
-        audio.addEventListener('ended', () => { nextBtn.click(); });
+        audio.addEventListener('ended', () => {
+            lockLandscape();
+            if (repeatMode === 2) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                nextBtn.click();
+            }
+        });
+
+        let masterAudioInputNode;
 
         function initAudioContext() {
+            lockLandscape();
             if (!audioCtx) {
                 const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioCtxClass({ latencyHint: 'playback' });
                 analyser = audioCtx.createAnalyser();
                 analyser.fftSize = 512;
-                source = audioCtx.createMediaElementSource(audio);
+
+                masterAudioInputNode = audioCtx.createGain();
+                audioSourceNode = audioCtx.createMediaElementSource(audio);
+                audioSourceNode.connect(masterAudioInputNode);
 
                 const masterInput = audioCtx.createGain(); masterInput.gain.value = 0.35;
                 const bassSplitter = audioCtx.createGain(); bassSplitter.gain.value = 1.0;
@@ -961,7 +1280,7 @@
                 monoNode = audioCtx.createGain(); monoNode.channelCount = isMonoActive ? 1 : 2; monoNode.channelCountMode = 'explicit'; monoNode.channelInterpretation = 'speakers';
                 limiter = audioCtx.createDynamicsCompressor(); limiter.threshold.value = -12.0; limiter.ratio.value = 20;
 
-                source.connect(masterInput);
+                masterAudioInputNode.connect(masterInput);
                 masterInput.connect(bassSplitter);
                 bassSplitter.connect(subsonicFilter); subsonicFilter.connect(bassLowpass); bassLowpass.connect(subEngine); subEngine.connect(deepEngine); deepEngine.connect(bassCompressor); bassCompressor.connect(bassOutput); bassOutput.connect(masterSum);
 
@@ -977,12 +1296,28 @@
                 applyBass(isBassActive ? 29 : 0);
                 applyTweeter(isTweterActive ? 29 : 0);
             }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function connectVideoToAudioContext(videoElem) {
+            lockLandscape();
+            if (!audioCtx) return;
+            try {
+                if (videoSourceNode) {
+                    try { videoSourceNode.disconnect(); } catch(e){}
+                }
+                videoSourceNode = audioCtx.createMediaElementSource(videoElem);
+                videoSourceNode.connect(masterAudioInputNode);
+            } catch(e) {}
         }
 
         function applyBass(v) { if (!audioCtx || !deepEngine) return; deepEngine.gain.setTargetAtTime(v * 1.1, audioCtx.currentTime, 0.2); subEngine.gain.setTargetAtTime(v * 0.8, audioCtx.currentTime, 0.2); }
         function applyTweeter(v) { if (!audioCtx || !tweeterNode) return; tweeterNode.gain.setTargetAtTime(v * 1.0, audioCtx.currentTime, 0.1); }
 
         btnBass.addEventListener('click', () => {
+            lockLandscape();
             isBassActive = !isBassActive;
             btnBass.textContent = isBassActive ? "Bajo: ON" : "Bajo: OFF";
             btnBass.className = isBassActive ? "pro-btn bg-purple-600 shadow-purple-600/50" : "pro-btn bg-slate-700";
@@ -990,6 +1325,7 @@
         });
 
         btnTweter.addEventListener('click', () => {
+            lockLandscape();
             isTweterActive = !isTweterActive;
             btnTweter.textContent = isTweterActive ? "Twister: ON" : "Twister: OFF";
             btnTweter.className = isTweterActive ? "pro-btn bg-indigo-600 shadow-indigo-600/50" : "pro-btn bg-slate-700";
@@ -997,6 +1333,7 @@
         });
 
         btnMono.addEventListener('click', () => {
+            lockLandscape();
             isMonoActive = !isMonoActive;
             btnMono.textContent = isMonoActive ? "Mono" : "Stereo";
             btnMono.className = isMonoActive ? "pro-btn bg-amber-700" : "pro-btn bg-blue-700";
@@ -1004,6 +1341,7 @@
         });
 
         btn8D.addEventListener('click', () => {
+            lockLandscape();
             is8DActive = !is8DActive;
             btn8D.textContent = is8DActive ? "6D: ON" : "6D: OFF";
             btn8D.className = is8DActive ? "pro-btn bg-purple-600 shadow-purple-600/50" : "pro-btn bg-purple-700";
@@ -1020,6 +1358,7 @@
         tickAudioEngine();
 
         prevBtn.addEventListener('click', () => {
+            lockLandscape();
             const list = getActiveList();
             if (list.length === 0) return;
             currentIndex = (currentIndex - 1 + list.length) % list.length;
@@ -1028,9 +1367,10 @@
         });
 
         nextBtn.addEventListener('click', () => {
+            lockLandscape();
             const list = getActiveList();
             if (list.length === 0) return;
-            currentIndex = (currentIndex + 1) % list.length;
+            currentIndex = getNextIndex();
             playItem(list[currentIndex], isVideoFullscreenActive);
             renderList();
         });
@@ -1046,56 +1386,61 @@
                 const curMin = Math.floor(audio.currentTime / 60), curSec = Math.floor(audio.currentTime % 60);
                 const durMin = Math.floor(audio.duration / 60), durSec = Math.floor(audio.duration % 60);
                 currentTimeEl.textContent = `${curMin}:${curSec < 10 ? '0' : ''}${curSec} / ${durMin}:${durSec < 10 ? '0' : ''}${durSec}`;
-                
-                const miniVid = coverContainer.querySelector('video');
-                if (miniVid && Math.abs(miniVid.currentTime - audio.currentTime) > 0.4) {
-                    miniVid.currentTime = audio.currentTime;
-                }
-
-                if (isVideoFullscreenActive && videoOverlay.style.display === 'flex') {
-                    if (Math.abs(fsVideo.currentTime - audio.currentTime) > 0.3) {
-                        fsVideo.currentTime = audio.currentTime;
-                    }
-                }
             }
         });
 
+        setInterval(() => {
+            if (sharedVideo && !sharedVideo.paused && sharedVideo.duration) {
+                const progVal = (sharedVideo.currentTime / sharedVideo.duration) * 100;
+                progressBar.value = progVal;
+                fsProgressBar.value = progVal;
+
+                const curMin = Math.floor(sharedVideo.currentTime / 60), curSec = Math.floor(sharedVideo.currentTime % 60);
+                const durMin = Math.floor(sharedVideo.duration / 60), durSec = Math.floor(sharedVideo.duration % 60);
+                currentTimeEl.textContent = `${curMin}:${curSec < 10 ? '0' : ''}${curSec} / ${durMin}:${durSec < 10 ? '0' : ''}${durSec}`;
+            }
+        }, 250);
+
         progressBar.addEventListener('input', () => {
+            lockLandscape();
             const list = getActiveList();
             const currentItem = list[currentIndex];
-            if (currentItem && !currentItem.isRadio && audio.duration) {
-                audio.currentTime = (progressBar.value / 100) * audio.duration;
-                const miniVid = coverContainer.querySelector('video');
-                if (miniVid) miniVid.currentTime = audio.currentTime;
-                if (isVideoFullscreenActive) fsVideo.currentTime = audio.currentTime;
+            if (currentItem) {
+                if (currentItem.type === 'video' && sharedVideo && sharedVideo.duration) {
+                    sharedVideo.currentTime = (progressBar.value / 100) * sharedVideo.duration;
+                } else if (!currentItem.isRadio && audio.duration) {
+                    audio.currentTime = (progressBar.value / 100) * audio.duration;
+                }
                 showFullscreenControls();
             }
         });
 
         fsProgressBar.addEventListener('input', () => {
+            lockLandscape();
             const list = getActiveList();
             const currentItem = list[currentIndex];
-            if (currentItem && !currentItem.isRadio && audio.duration) {
-                audio.currentTime = (fsProgressBar.value / 100) * audio.duration;
-                fsVideo.currentTime = audio.currentTime;
-                const miniVid = coverContainer.querySelector('video');
-                if (miniVid) miniVid.currentTime = audio.currentTime;
+            if (currentItem) {
+                if (currentItem.type === 'video' && sharedVideo && sharedVideo.duration) {
+                    sharedVideo.currentTime = (fsProgressBar.value / 100) * sharedVideo.duration;
+                } else if (!currentItem.isRadio && audio.duration) {
+                    audio.currentTime = (fsProgressBar.value / 100) * audio.duration;
+                }
                 showFullscreenControls();
             }
         });
 
         function handleImportedFiles(files) {
+            lockLandscape();
             if (!files || files.length === 0) return;
 
             const mediaFiles = Array.from(files);
-            let importedCount = 0;
+            const newItems = [];
 
             mediaFiles.forEach((file, idx) => {
                 const isAudioOrVideo = file.type.startsWith('audio/') || file.type.startsWith('video/') || /\.(mp3|wav|flac|aac|ogg|m4a|mp4|mkv|webm|avi|mov|3gp|flv|wmv)$/i.test(file.name);
                 
                 if (!isAudioOrVideo) return;
 
-                importedCount++;
                 const isVideo = file.type.startsWith('video/') || /\.(mp4|mkv|webm|avi|mov|3gp|flv|wmv)$/i.test(file.name);
                 
                 let cleanName = file.name
@@ -1114,11 +1459,12 @@
                     cover: null
                 };
 
-                localList.push(newItem);
+                newItems.push(newItem);
 
                 if (!isVideo && window.jsmediatags) {
                     window.jsmediatags.read(file, {
                         onSuccess: function(tag) {
+                            lockLandscape();
                             if (tag.tags.picture) {
                                 const data = tag.tags.picture.data;
                                 const format = tag.tags.picture.format;
@@ -1128,6 +1474,9 @@
                                 }
                                 newItem.cover = `data:${format};base64,${btoa(base64String)}`;
                                 renderList();
+                                if (localList[currentIndex] && localList[currentIndex].id === newItem.id) {
+                                    playItem(newItem, false);
+                                }
                             }
                         },
                         onError: function(error) {}
@@ -1135,18 +1484,19 @@
                 }
             });
 
-            if (importedCount > 0) {
+            if (newItems.length > 0) {
+                localList.push(...newItems);
                 currentMode = 'local';
-                tabLocal.className = "text-[10.5px] px-2.5 py-1 rounded bg-cyan-600 text-white font-bold transition";
-                tabRadios.className = "text-[10.5px] px-2.5 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
+                tabLocal.className = "text-[10px] px-2 py-1 rounded bg-cyan-600 text-white font-bold transition";
+                tabRadios.className = "text-[10px] px-2 py-1 rounded bg-zinc-800 text-slate-300 font-bold transition";
                 renderList();
-                currentIndex = localList.length - importedCount;
+                currentIndex = localList.length - newItems.length;
                 playItem(localList[currentIndex], false);
             }
         }
 
-        folderInput.addEventListener('change', (e) => handleImportedFiles(e.target.files));
-        filesInput.addEventListener('change', (e) => handleImportedFiles(e.target.files));
+        folderInput.addEventListener('change', (e) => { lockLandscape(); handleImportedFiles(e.target.files); });
+        filesInput.addEventListener('change', (e) => { lockLandscape(); handleImportedFiles(e.target.files); });
 
         function drawVisualizer() {
             requestAnimationFrame(drawVisualizer);
@@ -1169,24 +1519,22 @@
         }
 
         playBtn.addEventListener('click', () => {
+            lockLandscape();
             const list = getActiveList();
             if (list.length === 0) return;
             if (!isPlaying) {
-                if (!audio.src && list[currentIndex]) playItem(list[currentIndex], isVideoFullscreenActive);
-                else { 
-                    audio.play(); 
-                    const miniVid = coverContainer.querySelector('video');
-                    if (miniVid) miniVid.play();
-                    if(isVideoFullscreenActive) fsVideo.play();
+                if (!audio.src && (!sharedVideo || !sharedVideo.src) && list[currentIndex]) {
+                    playItem(list[currentIndex], isVideoFullscreenActive);
+                } else { 
+                    if (audio.src) audio.play(); 
+                    if (sharedVideo) sharedVideo.play();
                     isPlaying = true; 
                     playBtn.textContent = '❚❚'; 
                     fsPlay.textContent = '⏸ Pausa';
                 }
             } else { 
                 audio.pause(); 
-                const miniVid = coverContainer.querySelector('video');
-                if (miniVid) miniVid.pause();
-                fsVideo.pause();
+                if (sharedVideo) sharedVideo.pause();
                 isPlaying = false; 
                 playBtn.textContent = '▶'; 
                 fsPlay.textContent = '▶ Reproducir';
@@ -1194,9 +1542,14 @@
         });
 
         stopBtn.addEventListener('click', () => {
-            audio.pause(); fsVideo.pause();
-            audio.currentTime = 0; fsVideo.currentTime = 0;
-            audio.src = ''; fsVideo.src = '';
+            lockLandscape();
+            audio.pause(); 
+            if (sharedVideo) sharedVideo.pause();
+            audio.currentTime = 0; 
+            if (sharedVideo) sharedVideo.currentTime = 0;
+            audio.removeAttribute('src'); 
+            if (sharedVideo) sharedVideo.removeAttribute('src');
+            audio.load(); 
             isPlaying = false;
             isVideoFullscreenActive = false;
             playBtn.textContent = '▶';
@@ -1206,6 +1559,8 @@
             fsProgressBar.value = 0;
             videoOverlay.style.display = 'none';
             ghostControlsBox.classList.remove('visible');
+
+            middlePanel.classList.remove('is-video-mode');
 
             const list = getActiveList();
             const currentItem = list[currentIndex];
