@@ -3,48 +3,357 @@ name: Build Android APK
 on:
   push:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Prepare Web Directory
-      run: |
-        mkdir -p www
-        cp index.html www/
+      - name: Prepare Web Directory
+        run: |
+          mkdir -p www
+          cp index.html www/
 
-    - name: Add Android Platform
-      run: npx cap add android
+      - name: Add Android Platform
+        run: npx cap add android
 
-    - name: Copy Web Assets to Android
-      run: npx cap sync android
+      - name: Copy Web Assets to android
+        run: npx cap sync android
 
-    - name: Build Android Release APK
-      run: |
-        cd android
-        chmod +x gradlew
-        ./gradlew assembleDebug
+      - name: Configure Background Media Notification
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          PKG_DIR="android/app/src/main/java/com/tuempresa/carplayer"
+          mkdir -p "$PKG_DIR"
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-debug-apk
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+          python3 - << 'EOF'
+          from pathlib import Path
+
+          manifest_path = Path("android/app/src/main/AndroidManifest.xml")
+          xml = manifest_path.read_text(encoding="utf-8")
+
+          perms = [
+              '<uses-permission android:name="android.permission.INTERNET" />',
+              '<uses-permission android:name="android.permission.WAKE_LOCK" />',
+              '<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />',
+              '<uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />',
+              '<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />',
+          ]
+          for p in perms:
+              if p not in xml:
+                  xml = xml.replace("<manifest", "<manifest\n    " + p, 1) if "<manifest " in xml else xml
+                  if p not in xml:
+                      idx = xml.find(">", xml.find("<manifest")) + 1
+                      xml = xml[:idx] + "\n    " + p + xml[idx:]
+
+          service_block = """
+        <service
+            android:name=".MediaPlaybackService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+    </application>"""
+          if "MediaPlaybackService" not in xml:
+              xml = xml.replace("</application>", service_block, 1)
+
+          manifest_path.write_text(xml, encoding="utf-8")
+          EOF
+
+          cat << 'EOF' > "$PKG_DIR/MediaPlaybackService.java"
+          package com.tuempresa.carplayer;
+
+          import android.app.Notification;
+          import android.app.NotificationChannel;
+          import android.app.NotificationManager;
+          import android.app.PendingIntent;
+          import android.app.Service;
+          import android.content.Intent;
+          import android.graphics.Bitmap;
+          import android.graphics.BitmapFactory;
+          import android.os.Build;
+          import android.os.IBinder;
+          import android.support.v4.media.session.MediaSessionCompat;
+          import android.util.Base64;
+          import androidx.annotation.Nullable;
+          import androidx.core.app.NotificationCompat;
+          import androidx.media.app.NotificationCompat.MediaStyle;
+          import java.lang.ref.WeakReference;
+
+          public class MediaPlaybackService extends Service {
+              public static final String CHANNEL_ID = "media_playback_channel";
+              public static final int NOTIFICATION_ID = 1001;
+
+              public static final String ACTION_PLAY = "com.tuempresa.carplayer.ACTION_PLAY";
+              public static final String ACTION_PAUSE = "com.tuempresa.carplayer.ACTION_PAUSE";
+              public static final String ACTION_NEXT = "com.tuempresa.carplayer.ACTION_NEXT";
+              public static final String ACTION_PREV = "com.tuempresa.carplayer.ACTION_PREV";
+
+              private static WeakReference<MainActivity> activityRef;
+              private MediaSessionCompat mediaSession;
+
+              public static void attachActivity(MainActivity activity) {
+                  activityRef = new WeakReference<>(activity);
+              }
+
+              @Override
+              public void onCreate() {
+                  super.onCreate();
+                  mediaSession = new MediaSessionCompat(this, "RadioLocalPlayerSession");
+                  mediaSession.setActive(true);
+                  createNotificationChannel();
+              }
+
+              private void createNotificationChannel() {
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                      NotificationChannel channel = new NotificationChannel(
+                          CHANNEL_ID,
+                          "Reproducción multimedia",
+                          NotificationManager.IMPORTANCE_LOW
+                      );
+                      channel.setDescription("Controles y progreso en segundo plano");
+                      NotificationManager manager = getSystemService(NotificationManager.class);
+                      if (manager != null) {
+                          manager.createNotificationChannel(channel);
+                      }
+                  }
+              }
+
+              @Override
+              public int onStartCommand(Intent intent, int flags, int startId) {
+                  if (intent != null && intent.getAction() != null) {
+                      String action = intent.getAction();
+                      MainActivity act = activityRef != null ? activityRef.get() : null;
+                      if (act != null) {
+                          if (ACTION_PLAY.equals(action)) act.sendMediaAction("play");
+                          else if (ACTION_PAUSE.equals(action)) act.sendMediaAction("pause");
+                          else if (ACTION_NEXT.equals(action)) act.sendMediaAction("next");
+                          else if (ACTION_PREV.equals(action)) act.sendMediaAction("prev");
+                      }
+                  }
+                  return START_STICKY;
+              }
+
+              public void showOrUpdateNotification(String title, String artist, boolean isPlaying, long positionMs, long durationMs, String coverData) {
+                  Intent openIntent = new Intent(this, MainActivity.class);
+                  openIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                  PendingIntent contentIntent = PendingIntent.getActivity(
+                      this, 0, openIntent,
+                      PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                  );
+
+                  PendingIntent prevIntent = actionPendingIntent(ACTION_PREV, 1);
+                  PendingIntent playPauseIntent = actionPendingIntent(isPlaying ? ACTION_PAUSE : ACTION_PLAY, 2);
+                  PendingIntent nextIntent = actionPendingIntent(ACTION_NEXT, 3);
+
+                  Bitmap artBitmap = decodeCover(coverData);
+
+                  NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                      .setSmallIcon(android.R.drawable.ic_media_play)
+                      .setContentTitle(title != null && !title.isEmpty() ? title : "Radio & Local Player")
+                      .setContentText(artist != null && !artist.isEmpty() ? artist : "En reproducción")
+                      .setContentIntent(contentIntent)
+                      .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                      .setOngoing(isPlaying)
+                      .setOnlyAlertOnce(true)
+                      .addAction(android.R.drawable.ic_media_previous, "Anterior", prevIntent)
+                      .addAction(
+                          isPlaying ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play,
+                          isPlaying ? "Pausar" : "Reproducir",
+                          playPauseIntent
+                      )
+                      .addAction(android.R.drawable.ic_media_next, "Siguiente", nextIntent)
+                      .setStyle(new MediaStyle()
+                          .setMediaSession(mediaSession.getSessionToken())
+                          .setShowActionsInCompactView(0, 1, 2));
+
+                  if (artBitmap != null) {
+                      builder.setLargeIcon(artBitmap);
+                  }
+
+                  if (durationMs > 0) {
+                      builder.setProgress((int) Math.min(durationMs, Integer.MAX_VALUE),
+                                          (int) Math.min(Math.max(0L, positionMs), Integer.MAX_VALUE),
+                                          false);
+                  }
+
+                  Notification notification = builder.build();
+                  startForeground(NOTIFICATION_ID, notification);
+              }
+
+              private PendingIntent actionPendingIntent(String action, int requestCode) {
+                  Intent i = new Intent(this, MediaPlaybackService.class);
+                  i.setAction(action);
+                  return PendingIntent.getService(
+                      this, requestCode, i,
+                      PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                  );
+              }
+
+              private Bitmap decodeCover(String coverData) {
+                  if (coverData == null || coverData.isEmpty()) return null;
+                  try {
+                      String base64Part = coverData.contains(",") ? coverData.split(",", 2)[1] : coverData;
+                      byte[] bytes = Base64.decode(base64Part, Base64.DEFAULT);
+                      return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                  } catch (Exception e) {
+                      return null;
+                  }
+              }
+
+              @Override
+              public void onDestroy() {
+                  if (mediaSession != null) {
+                      mediaSession.release();
+                  }
+                  super.onDestroy();
+              }
+
+              @Nullable
+              @Override
+              public IBinder onBind(Intent intent) {
+                  return null;
+              }
+          }
+          EOF
+
+          cat << 'EOF' > "$PKG_DIR/MainActivity.java"
+          package com.tuempresa.carplayer;
+
+          import android.Manifest;
+          import android.content.ComponentName;
+          import android.content.Context;
+          import android.content.Intent;
+          import android.content.ServiceConnection;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.IBinder;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebView;
+          import androidx.core.app.ActivityCompat;
+          import com.getcapacitor.BridgeActivity;
+          import org.json.JSONObject;
+
+          public class MainActivity extends BridgeActivity {
+              private MediaPlaybackService mediaService;
+              private boolean isBound = false;
+
+              private final ServiceConnection serviceConnection = new ServiceConnection() {
+                  @Override
+                  public void onServiceConnected(ComponentName name, IBinder service) {
+                      isBound = true;
+                  }
+
+                  @Override
+                  public void onServiceDisconnected(ComponentName name) {
+                      mediaService = null;
+                      isBound = false;
+                  }
+              };
+
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  MediaPlaybackService.attachActivity(this);
+
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                      ActivityCompat.requestPermissions(
+                          this,
+                          new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                          101
+                      );
+                  }
+
+                  Intent intent = new Intent(this, MediaPlaybackService.class);
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                      startForegroundService(intent);
+                  } else {
+                      startService(intent);
+                  }
+                  bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+                  WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                  if (webView != null) {
+                      webView.addJavascriptInterface(new NativeMediaBridge(), "NativeMediaBridge");
+                  }
+              }
+
+              public void sendMediaAction(final String action) {
+                  runOnUiThread(() -> {
+                      WebView webView = getBridge() != null ? getBridge().getWebView() : null;
+                      if (webView != null) {
+                          webView.evaluateJavascript(
+                              "if (window.__onNativeMediaAction) window.__onNativeMediaAction('" + action + "');",
+                              null
+                          );
+                      }
+                  });
+              }
+
+              public class NativeMediaBridge {
+                  @JavascriptInterface
+                  public void updateNotification(final String jsonPayload) {
+                      runOnUiThread(() -> {
+                          try {
+                              JSONObject obj = new JSONObject(jsonPayload);
+                              String title = obj.optString("title", "Radio & Local Player");
+                              String artist = obj.optString("artist", "En reproducción");
+                              boolean isPlaying = obj.optBoolean("isPlaying", false);
+                              long posMs = (long) (obj.optDouble("position", 0) * 1000L);
+                              long durMs = (long) (obj.optDouble("duration", 0) * 1000L);
+                              String cover = obj.optString("cover", "");
+
+                              Intent svcIntent = new Intent(MainActivity.this, MediaPlaybackService.class);
+                              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                  startForegroundService(svcIntent);
+                              } else {
+                                  startService(svcIntent);
+                              }
+
+                              if (mediaService != null) {
+                                  mediaService.showOrUpdateNotification(title, artist, isPlaying, posMs, durMs, cover);
+                              }
+                          } catch (Exception ignored) {}
+                      });
+                  }
+              }
+
+              @Override
+              public void onDestroy() {
+                  if (isBound) {
+                      unbindService(serviceConnection);
+                      isBound = false;
+                  }
+                  super.onDestroy();
+              }
+          }
+          EOF
+
+      - name: Build Android Release APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
